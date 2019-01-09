@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>px转换成rem rem转换成px</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+<h1>px rem 相互转换</h1>
+<div class="tab-content">
+    <div class="tab-pane active">
+        <table class="compare-table">
+            <tbody>
+            <tr>
+                <td class="compare-first">
+                    <textarea spellcheck="false" id="txtSourceRem" class="form-control" rows="21" style="width: 100%">.item{
+    width: 200px;
+    height: 150px;
+    border: 1px solid #ccc;
+    margin: 10px auto;
+    padding: 5px;
+}
+                    </textarea>
+                </td>
+                <td class="compare-second" style="text-align:center;">
+                    <p style="width:100%;margin:5px auto;">
+                        <span>1rem=</span>
+                        <input id="txtRemIntalize" type="text" class="form-control"
+                               style="width:45px;display:inline-block;" value="100">
+                        <span>px</span>
+                    </p>
+                    <p>
+                        <button id="btnToRem" class="btn btn-primary">转换 ></button>
+                    </p>
+                    <p>
+                        <button id="btnToPx" class="btn btn-primary">< 转换</button>
+                    </p>
+                </td>
+                <td class="compare-third">
+                    <textarea id="txtDestRem" spellcheck="false" class="form-control" rows="21"
+                              style="width: 100%"></textarea>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <p style="margin-top:10px;">
+            <!--<input id="chkIgnoreBorder" type="checkbox" checked="checked">-->
+            <!--<label for="chkIgnoreBorder" class="lblNormal">不处理border</label>-->
+        </p>
+    </div>
+    <div class="error-container">
+        <div id="errorDiv" class="alert alert-danger alert-dismissible" role="alert" style="display:none;">
+            错误：解码错误
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script>
+    var a = $('#txtSourceRem');
+    var b = $('#txtDestRem');
+    var c = $('#txtRemIntalize');
+
+
+    $('#btnToRem').on('click', function () {
+        px2rem(a, b, c);
+    })
+    $('#btnToPx').on('click', function () {
+        rem2px(b, a, c);
+    })
+
+    /**
+     * px转换成rem
+     * @param a px内容选择器
+     * @param b rem内容选择器
+     * @param multiple 倍率选择器
+     */
+    function px2rem(a, b, multiple) {
+        var t;
+        t = a.val();
+        t = t.replace(/\d{1,}(\d{1,})px/g, function (word) {
+            var u = word.split('px')[0] / multiple.val();
+            return word.replace(/\d{1,}(\d{1,})px/, `${u}rem`);
+        });
+        b.text(t);
+    }
+
+    /**
+     * rem转换成px
+     * @param b rem内容选择器
+     * @param a px内容选择器
+     * @param multiple 倍率选择器
+     */
+    function rem2px(b, a, multiple) {
+        var t;
+        t = b.val();
+        t = t.replace(/\d{1,}.\d{1,}rem/g, function (word) {
+            var u = word.split('rem')[0] * multiple.val();
+            return word.replace(/\d{1,}.\d{1,}rem/, `${u}px`);
+        });
+        a.text(t);
+    }
+
+</script>
+</body>
+</html>
